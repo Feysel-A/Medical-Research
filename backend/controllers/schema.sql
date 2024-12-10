@@ -17,6 +17,16 @@ CREATE TABLE Comorbidities (
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
 );
 
+-- Create PersonalHabits Table
+CREATE TABLE PersonalHabits (
+    habit_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    smoking_status VARCHAR(50) NOT NULL,
+    alcohol_status VARCHAR(50) NOT NULL,
+    substance_abuse BOOLEAN NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
+
 -- Create NutritionalStatus Table
 CREATE TABLE NutritionalStatus (
     nutrition_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,6 +53,7 @@ CREATE TABLE Surgery (
     wound_class VARCHAR(50),
     surgery_type VARCHAR(50),
     main_procedure VARCHAR(100),
+    duration_of_surgery VARCHAR(50),
     asa_score INT,
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
 );
@@ -76,4 +87,29 @@ CREATE TABLE Antibiotics (
     antibiotics_list TEXT,
     duration INT,
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
+
+-- Create PreviousHospitalization Table
+CREATE TABLE PreviousHospitalization (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    date DATE NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
+
+-- Create PreviousSurgeries Table
+CREATE TABLE PreviousSurgeries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    type_of_surgery VARCHAR(100),
+    date DATE NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
+
+-- Create Users Table
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
