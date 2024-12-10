@@ -14,7 +14,7 @@ const antiboioticRoutes = require("./antibioticsRoutes");
 //Use the routes
 router.use(installRoutes);
 router.use(userRoutes);
-// router.use(patientRoutes);
+router.use("/patients", patientRoutes);
 // router.use(diagnosisRoutes);
 // router.use(surgeryRoutes);
 // router.use(infectedRoutes);
