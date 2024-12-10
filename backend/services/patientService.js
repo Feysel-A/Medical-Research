@@ -491,10 +491,73 @@ const updateSinglePatientById = async (
     connection.release();
   }
 };
+const getAllPatientsWithDetails = async () => {
+  // Query the main Patients table
+  const patientQuery = "SELECT * FROM Patients";
+  const [patients] = await db.query(patientQuery);
+
+  if (!patients || patients.length === 0) {
+    return [];
+  }
+
+  // Query all related tables for each patient
+  const patientDetails = await Promise.all(
+    patients.map(async (patient) => {
+      const patientId = patient.patient_id;
+
+      const comorbiditiesQuery =
+        "SELECT * FROM Comorbidities WHERE patient_id = ?";
+      const nutritionalQuery =
+        "SELECT * FROM NutritionalStatus WHERE patient_id = ?";
+      const habitsQuery = "SELECT * FROM PersonalHabits WHERE patient_id = ?";
+      const diagnosisQuery = "SELECT * FROM Diagnosis WHERE patient_id = ?";
+      const surgeryQuery = "SELECT * FROM Surgery WHERE patient_id = ?";
+      const infectionsQuery = "SELECT * FROM Infections WHERE patient_id = ?";
+      const hospitalStayQuery =
+        "SELECT * FROM HospitalStay WHERE patient_id = ?";
+      const antibioticsQuery = "SELECT * FROM Antibiotics WHERE patient_id = ?";
+      const prevHospQuery =
+        "SELECT * FROM PreviousHospitalization WHERE patient_id = ?";
+      const prevSurgQuery =
+        "SELECT * FROM PreviousSurgeries WHERE patient_id = ?";
+
+      // Fetch data for each table
+      const [comorbidities] = await db.query(comorbiditiesQuery, [patientId]);
+      const [nutritionalStatus] = await db.query(nutritionalQuery, [patientId]);
+      const [personalHabits] = await db.query(habitsQuery, [patientId]);
+      const [diagnosis] = await db.query(diagnosisQuery, [patientId]);
+      const [surgery] = await db.query(surgeryQuery, [patientId]);
+      const [infections] = await db.query(infectionsQuery, [patientId]);
+      const [hospitalStay] = await db.query(hospitalStayQuery, [patientId]);
+      const [antibiotics] = await db.query(antibioticsQuery, [patientId]);
+      const [previousHospitalization] = await db.query(prevHospQuery, [
+        patientId,
+      ]);
+      const [previousSurgeries] = await db.query(prevSurgQuery, [patientId]);
+
+      return {
+        patient,
+        comorbidities: comorbidities[0] || null,
+        personalHabits: personalHabits[0] || null,
+        nutritionalStatus: nutritionalStatus[0] || null,
+        diagnosis: diagnosis[0] || null,
+        surgery: surgery[0] || null,
+        infections: infections[0] || null,
+        hospitalStay: hospitalStay[0] || null,
+        antibiotics: antibiotics[0] || null,
+        previousHospitalization: previousHospitalization[0] || null,
+        previousSurgeries: previousSurgeries[0] || null,
+      };
+    })
+  );
+
+  return patientDetails;
+};
 
 module.exports = {
   addOrUpdatePatient,
   getPatientDetailsById,
   deletePatientWithDetails,
   updateSinglePatientById,
+  getAllPatientsWithDetails,
 };

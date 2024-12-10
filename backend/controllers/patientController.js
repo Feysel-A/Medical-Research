@@ -91,10 +91,25 @@ const updateSinglePatientById = async (req, res) => {
         res.status(500).json({ message: 'An error occurred while updating patient details.' });
     }
 };
+const getAllPatientsWithDetails = async (req, res) => {
+    try {
+        const patients = await patientService.getAllPatientsWithDetails();
+
+        if (!patients || patients.length === 0) {
+            return res.status(404).json({ message: 'No patients found.' });
+        }
+
+        res.status(200).json(patients);
+    } catch (error) {
+        console.error('Error retrieving all patients:', error);
+        res.status(500).json({ message: 'An error occurred while retrieving patients.' });
+    }
+};
 
 module.exports = {
     addOrUpdatePatient,
     getPatientDetailsById,
     updateSinglePatientById,
+    getAllPatientsWithDetails,
     deletePatientWithDetails
 };

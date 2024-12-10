@@ -1,17 +1,19 @@
-const express = require('express');
-const patientController = require('../controllers/patientController');
+const express = require("express");
+const patientController = require("../controllers/patientController");
 const router = express.Router();
 
 // Add or update a patient with all related details
-router.post('/add-or-update', patientController.addOrUpdatePatient);
+router.post("/add-or-update", patientController.addOrUpdatePatient);
 
 // Get all details for a specific patient
-router.get('/:id', patientController.getPatientDetailsById);
+router.get("/:id",  patientController.getPatientDetailsById);
 
 // Delete a patient and all related details
-router.delete('/:id', patientController.deletePatientWithDetails);
+router.delete("/:id", patientController.deletePatientWithDetails);
 
 // Update specific details for a single patient by ID
-router.put('/:id', patientController.updateSinglePatientById);
+router.put("/:id", patientController.updateSinglePatientById);
+// Get all patients' details
+router.get("/", patientController.getAllPatientsWithDetails);
 
 module.exports = router;
