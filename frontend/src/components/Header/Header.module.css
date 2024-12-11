@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #007bff;
+  background-color: #004aad;
   color: white;
   width: 100%;
 }
@@ -34,14 +34,6 @@
 .link:hover {
   text-decoration: underline bold;
   color: #007bff;
-}
-
-/* Banner Section */
-.banner {
-  text-align: center;
-  padding: 3rem 1rem;
-  background: linear-gradient(120deg, #007bff, #66b2ff);
-  color: white;
 }
 
 .title {

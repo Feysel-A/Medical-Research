@@ -19,7 +19,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/add-patient" element={<AddPatient />} />
         <Route path="/patients" element={<Patients />} />
-        <Route path="/view-patient/:id" element={<SinglePatientDetail />} />
+        <Route
+          path="/view-patient/:patientId"
+          element={<SinglePatientDetail />}
+        />
       </Routes>
     </>
   );
