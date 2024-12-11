@@ -8,6 +8,8 @@ import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import Header from "./components/Header/Header";
 import AddPatient from "./Pages/AddPatient/AddPatient";
+import Patients from "./Pages/Patients/Patients";
+import SinglePatientDetail from "./Pages/SinglePatient/SinglePatient";
 function App() {
   return (
     <>
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-patient" element={<AddPatient />} />
+        <Route path="/patients" element={<Patients />} />
+        <Route path="/view-patient/:id" element={<SinglePatientDetail />} />
       </Routes>
     </>
   );
