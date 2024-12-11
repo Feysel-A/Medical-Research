@@ -1,5 +1,5 @@
 const userService = require("../services/userService");
-const { generateToken } = require('../config/jwtConfig');
+const { generateToken } = require("../config/jwtConfig");
 // Handles the user registration logic
 const registerUser = async (req, res) => {
   try {
@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
     // Generate JWT token
     const token = generateToken(user);
 
-    res.status(200).json({ message: "Login successful.", token });
+    res.status(200).json({ message: "Login successful.", token, username });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ message: "An error occurred while logging in." });
