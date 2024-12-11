@@ -3,11 +3,10 @@ import "./assets/template_assets/css/style.css";
 import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
 import "./assets/styles/custom.css";
-import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
-import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
 function App() {
   return (
     <>
@@ -16,7 +15,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      <Footer />
     </>
   );
 }
