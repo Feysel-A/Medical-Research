@@ -20,7 +20,12 @@ const HomePage = () => {
           <p className={styles.subtitle}>
             Manage patient information with ease
           </p>
-          <button className={styles.ctaButton}>Add Patient</button>
+          <button
+            className={styles.ctaButton}
+            onClick={() => navigator("/add-patient")}
+          >
+            Add Patient
+          </button>
         </section>
 
         {/* Cards Section */}
