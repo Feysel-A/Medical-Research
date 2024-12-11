@@ -492,8 +492,8 @@ const updateSinglePatientById = async (
   }
 };
 const getAllPatientsWithDetails = async () => {
-  // Query the main Patients table
-  const patientQuery = "SELECT * FROM Patients";
+  // Query the main Patients table, ordering by patient_id in descending order
+  const patientQuery = "SELECT * FROM Patients ORDER BY patient_id DESC";
   const [patients] = await db.query(patientQuery);
 
   if (!patients || patients.length === 0) {
@@ -553,6 +553,7 @@ const getAllPatientsWithDetails = async () => {
 
   return patientDetails;
 };
+
 
 module.exports = {
   addOrUpdatePatient,
