@@ -23,7 +23,7 @@ const addOrUpdatePatient = async (req, res) => {
             previousSurgeries
         );
 
-        res.status(201).json({ message: 'Patient and related details added/updated successfully.', patientId: result.patientId });
+        res.status(201).json({ message: 'Patient and related details added successfully.', patientId: result.patientId });
     } catch (error) {
         console.error('Error adding/updating patient details:', error);
         res.status(500).json({ message: 'An error occurred while adding/updating patient details.' });
