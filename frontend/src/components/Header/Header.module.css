@@ -1,14 +1,15 @@
 /* Container for the entire page */
 /* Header Section */
-.header {
+header {
   display: flex;
-  position: sticky;
+  position: fixed;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #004aad;
+  padding: 5px 2rem;
+  background-color: hsl(214, 100%, 34%);
   color: white;
   width: 100%;
+  z-index: 100;
 }
 
 .logo {

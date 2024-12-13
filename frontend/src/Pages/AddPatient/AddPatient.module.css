@@ -2,6 +2,7 @@
   font-family: Arial, sans-serif;
   padding: 1rem;
   background-color: #f9f9f9;
+  padding-top: 90px;
 }
 
 .title {
@@ -81,4 +82,11 @@ input[type="checkbox"] {
   font-size: larger;
   color: blue;
   text-align: center;
+}
+@media screen and (max-width: 600px) {
+  .checkbox {
+    display: flex;
+    justify-content: space-between;
+    gap: 3rem;
+  }
 }

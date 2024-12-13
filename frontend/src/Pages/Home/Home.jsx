@@ -15,8 +15,6 @@ const HomePage = () => {
     } catch (error) {
       console.error(error);
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
