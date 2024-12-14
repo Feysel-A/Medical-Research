@@ -11,7 +11,7 @@ const AgeDistributionChart = ({ patientData }) => {
     { name: "51+", count: 0 },
   ];
 
-  patientData.forEach((patient) => {
+  patientData?.forEach((patient) => {
     const age = patient.patient.age;
     if (age <= 18) ageGroups[0].count += 1;
     else if (age <= 35) ageGroups[1].count += 1;

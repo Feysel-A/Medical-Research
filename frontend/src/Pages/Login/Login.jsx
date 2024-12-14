@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { AppState } from "../../Context/DataContext";
+import api_url from "../../Axio";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -13,7 +14,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { username, password };
-    const response = fetch("http://localhost:3001/api/login", {
+    const response = fetch(`${api_url}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

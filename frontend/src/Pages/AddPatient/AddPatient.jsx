@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AddPatient.module.css";
 import { useNavigate } from "react-router-dom";
+import api_url from "../../Axio";
 
 const AddPatient = () => {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ const AddPatient = () => {
     e.preventDefault();
     console.log("Submitting form data:", formData);
     // Replace with API call logic
-    const response = fetch("http://localhost:3001/api/patients/add-or-update", {
+    const response = fetch(`${api_url}/patients/add-or-update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

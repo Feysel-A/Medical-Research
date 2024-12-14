@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./RetrievePatients.module.css";
 import Modal from "../../components/CustomModel/Modal";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import api_url from "../../Axio";
+import { AppState } from "../../Context/DataContext";
 
 const RetrievePatients = () => {
   const [patients, setPatients] = useState([]);
@@ -15,7 +17,7 @@ const RetrievePatients = () => {
   const navigator = useNavigate();
   const fetchPatients = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/patients");
+      const response = await fetch(`${api_url}/patients`);
       const data = await response.json();
       setPatients(data);
     } catch (error) {
@@ -28,7 +30,7 @@ const RetrievePatients = () => {
 
   const deletePatient = async () => {
     try {
-      await fetch(`http://localhost:3001/api/patients/${selectedPatientId}`, {
+      await fetch(`${api_url}/patients/${selectedPatientId}`, {
         method: "DELETE",
       });
       setPatients(
@@ -46,7 +48,12 @@ const RetrievePatients = () => {
   useEffect(() => {
     fetchPatients();
   }, []);
-
+  const { user } = useContext(AppState);
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      navigator("/login");
+    }
+  }, []);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -77,34 +84,40 @@ const RetrievePatients = () => {
           </tr>
         </thead>
         <tbody>
-          {patients?.map((patient) => (
-            <tr key={patient?.patient.patient_id}>
-              <td>{patient?.patient.patient_id}</td>
-              <td>{patient?.patient.age}</td>
-              <td>{patient?.patient.sex}</td>
-              <td>
-                <button
-                  style={{ marginLeft: "10px" }}
-                  onClick={() =>
-                    navigator(`/view-patient/${patient?.patient.patient_id}`)
-                  }
-                >
-                  <FaArrowUpRightFromSquare />
-                </button>
-              </td>
-              <td>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => {
-                    setSelectedPatientId(patient?.patient.patient_id);
-                    setModalVisible(true);
-                  }}
-                >
-                  <MdDelete />
-                </button>
-              </td>
+          {patients.length === 0 ? (
+            <tr>
+              <h2>No patients found.</h2>
             </tr>
-          ))}
+          ) : (
+            patients?.map((patient) => (
+              <tr key={patient?.patient.patient_id}>
+                <td>{patient?.patient.patient_id}</td>
+                <td>{patient?.patient.age}</td>
+                <td>{patient?.patient.sex}</td>
+                <td>
+                  <button
+                    style={{ marginLeft: "10px" }}
+                    onClick={() =>
+                      navigator(`/view-patient/${patient?.patient.patient_id}`)
+                    }
+                  >
+                    <FaArrowUpRightFromSquare />
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => {
+                      setSelectedPatientId(patient?.patient.patient_id);
+                      setModalVisible(true);
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

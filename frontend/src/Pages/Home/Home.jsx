@@ -3,13 +3,14 @@ import styles from "./Home.module.css";
 import { AppState } from "../../Context/DataContext";
 import { useNavigate } from "react-router-dom";
 import Example from "../../components/Example/Example";
+import api_url from "../../Axio";
 const HomePage = () => {
   const { user } = useContext(AppState);
   const [patients, setPatients] = useState([]);
   const navigator = useNavigate();
   const fetchPatients = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/patients");
+      const response = await fetch(`${api_url}/patients`);
       const data = await response.json();
       setPatients(data);
     } catch (error) {
@@ -47,7 +48,7 @@ const HomePage = () => {
             <div className={styles.chartSection}>
               <h2 className={styles.chartTitle}>Age Distribution</h2>
               <div className={styles.chartWrapper}>
-                <Example patientData={patients} />
+                {patients.length > 0 && <Example patientData={patients} />}
               </div>
             </div>
 
