@@ -9,7 +9,7 @@ const DownloadFile = ({ patients }) => {
         }
 
         // Flatten and convert data to CSV format
-        const csvData = patients.map((record) => ({
+        const csvData = patients?.map((record) => ({
             patient_id: record.patient?.patient_id || "",
             age: record.patient?.age || "",
             sex: record.patient?.sex || "",
