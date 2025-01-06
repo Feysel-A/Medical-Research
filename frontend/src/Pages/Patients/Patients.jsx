@@ -7,6 +7,7 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api_url from "../../Axio";
 import { AppState } from "../../Context/DataContext";
+import DownloadFile from "../../components/DownloadFile/DownloadFile";
 
 const RetrievePatients = () => {
   const [patients, setPatients] = useState([]);
@@ -64,7 +65,15 @@ const RetrievePatients = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>All Patients</h1>
+      <br />
+      <br />
+      <br />
+      <span
+        style={{ float: "right", marginRight: "10px", marginBottom: "10px" }}
+      >
+        <span style={{ fontSize:"20px" }}>All Patients</span>{" "}
+        <DownloadFile patients={patients} />
+      </span>
       {modalVisible && (
         <Modal
           title="Confirm Delete"
