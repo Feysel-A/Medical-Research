@@ -30,15 +30,15 @@ const addOrUpdatePatient = async (
                 residency = VALUES(residency)
         `;
     const [patientResult] = await connection.query(patientQuery, [
-      patient.age,
-      patient.sex,
-      patient.education_status,
-      patient.occupation_status,
-      patient.residency,
+      patient.age || 0, // Default to 0 if null
+      patient.sex || "Unknown", // Default to "Unknown"
+      patient.education_status || "Not Specified", // Default to "Not Specified"
+      patient.occupation_status || "Unemployed", // Default to "Unemployed"
+      patient.residency || "Unknown", // Default to "Unknown"
     ]);
     const patientId = patientResult.insertId || patientResult.affectedRows;
 
-    // Insert or update all related data for comorbidities, personal habits, nutritional status, etc.
+    // Insert or update all related data
 
     // Comorbidities
     if (comorbidities) {
@@ -51,8 +51,8 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(comorbiditiesQuery, [
         patientId,
-        comorbidities.has_comorbidities,
-        comorbidities.comorbidities_list,
+        comorbidities.has_comorbidities ?? false, // Default to false
+        comorbidities.comorbidities_list || "None", // Default to "None"
       ]);
     }
 
@@ -68,9 +68,9 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(habitsQuery, [
         patientId,
-        personalHabits.smoking_status,
-        personalHabits.alcohol_status,
-        personalHabits.substance_abuse,
+        personalHabits.smoking_status || "No", // Default to "No"
+        personalHabits.alcohol_status || "No", // Default to "No"
+        personalHabits.substance_abuse ?? false, // Default to false
       ]);
     }
 
@@ -86,9 +86,9 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(nutritionalQuery, [
         patientId,
-        nutritionalStatus.bmi_status,
-        nutritionalStatus.hg_status,
-        nutritionalStatus.albumin_status,
+        nutritionalStatus.bmi_status || "Normal", // Default to "Normal"
+        nutritionalStatus.hg_status || "Normal", // Default to "Normal"
+        nutritionalStatus.albumin_status || "Normal", // Default to "Normal"
       ]);
     }
 
@@ -103,8 +103,8 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(diagnosisQuery, [
         patientId,
-        diagnosis.diagnosis_type,
-        diagnosis.gyne_obstetrics,
+        diagnosis.diagnosis_type || "Not Specified", // Default to "Not Specified"
+        diagnosis.gyne_obstetrics || "N/A", // Default to "N/A"
       ]);
     }
 
@@ -122,11 +122,11 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(surgeryQuery, [
         patientId,
-        surgery.wound_class,
-        surgery.surgery_type,
-        surgery.main_procedure,
-        surgery.duration_of_surgery,
-        surgery.asa_score,
+        surgery.wound_class || "Unknown", // Default to "Unknown"
+        surgery.surgery_type || "Not Specified", // Default to "Not Specified"
+        surgery.main_procedure || "None", // Default to "None"
+        surgery.duration_of_surgery || "0 hours", // Default to "0 hours"
+        surgery.asa_score || 0, // Default to 0
       ]);
     }
 
@@ -143,10 +143,10 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(infectionsQuery, [
         patientId,
-        infections.has_infection,
-        infections.infection_date,
-        infections.infection_type,
-        infections.microorganisms,
+        infections.has_infection ?? false, // Default to false
+        infections.infection_date || "1970-01-01", // Default to epoch date
+        infections.infection_type || "None", // Default to "None"
+        infections.microorganisms || "None", // Default to "None"
       ]);
     }
 
@@ -161,8 +161,8 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(hospitalStayQuery, [
         patientId,
-        hospitalStay.preoperative_days,
-        hospitalStay.postoperative_days,
+        hospitalStay.preoperative_days || 0, // Default to 0
+        hospitalStay.postoperative_days || 0, // Default to 0
       ]);
     }
 
@@ -179,10 +179,10 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(antibioticsQuery, [
         patientId,
-        antibiotics.given,
-        antibiotics.prophylactic,
-        antibiotics.antibiotics_list,
-        antibiotics.duration,
+        antibiotics.given ?? false, // Default to false
+        antibiotics.prophylactic ?? false, // Default to false
+        antibiotics.antibiotics_list || "None", // Default to "None"
+        antibiotics.duration || 0, // Default to 0
       ]);
     }
 
@@ -196,7 +196,7 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(prevHospQuery, [
         patientId,
-        previousHospitalization.date,
+        previousHospitalization.date || "1970-01-01", // Default to epoch date
       ]);
     }
 
@@ -211,8 +211,8 @@ const addOrUpdatePatient = async (
             `;
       await connection.query(prevSurgQuery, [
         patientId,
-        previousSurgeries.type_of_surgery,
-        previousSurgeries.date,
+        previousSurgeries.type_of_surgery || "None", // Default to "None"
+        previousSurgeries.date || "1970-01-01", // Default to epoch date
       ]);
     }
 
@@ -225,6 +225,7 @@ const addOrUpdatePatient = async (
     connection.release();
   }
 };
+
 
 // Get all details for a specific patient
 const getPatientDetailsById = async (patientId) => {
