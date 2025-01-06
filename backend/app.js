@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const router = require("./routes");
 //Middleware
-app.use(cors());
+app.use(cors(true));
 app.use(express.json());
 //Use the router
 app.use("/api", router);
